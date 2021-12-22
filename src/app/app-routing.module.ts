@@ -8,7 +8,7 @@ import {UporabnikiDodajComponent} from './uporabnik/uporabniki-dodaj.component';
 const routes: Routes = [
     {path: '', redirectTo: '/uporabniki', pathMatch: 'full'},
     {path: 'uporabniki', component: UporabnikiComponent},
-    {path: 'uporabniki/:username', component: UporabnikPodrobnostiComponent},
+    {path: 'uporabniki/:id', component: UporabnikPodrobnostiComponent},
     {path: 'dodajuporabnika', component: UporabnikiDodajComponent}
 ];
 

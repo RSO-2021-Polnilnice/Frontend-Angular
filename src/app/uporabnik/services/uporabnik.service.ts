@@ -20,15 +20,15 @@ export class UporabnikService {
                         .pipe(catchError(this.handleError));
     }
 
-    getUporabnik(username: string): Observable<Uporabnik> {
-        const url = `${this.url}/${username}`;
+    getUporabnik(id: number): Observable<Uporabnik> {
+        const url = `${this.url}/${id}`;
         return this.http.get<Uporabnik>(url)
                         .pipe(catchError(this.handleError));
     }
 
-    delete(username: string): Observable<string> {
-        const url = `${this.url}/${username}`;
-        return this.http.delete<string>(url, {headers: this.headers})
+    delete(id: number): Observable<number> {
+        const url = `${this.url}/${id}`;
+        return this.http.delete<number>(url, {headers: this.headers})
                         .pipe(catchError(this.handleError));
     }
 

@@ -24,15 +24,6 @@
             <td>{{uporabnik.funds}}</td>
         </tr>
     </table>
-
-    <br>
-    <h4>Opomniki:</h4>
-    <ul>
-        <li *ngFor="let opomnik of uporabnik.opomniki">
-            {{opomnik.naslov}}: {{opomnik.opis}}
-        </li>
-    </ul>
-
     <br>
     <button (click)="nazaj()">Nazaj</button>
 </div>

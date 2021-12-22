@@ -22,7 +22,7 @@ export class UporabnikPodrobnostiComponent implements OnInit {
 
     ngOnInit(): void {
        this.route.params.pipe(
-            switchMap((params: Params) => this.uporabnikService.getUporabnik(params['username'])))
+            switchMap((params: Params) => this.uporabnikService.getUporabnik(+params['id'])))
             .subscribe(uporabnik => this.uporabnik = uporabnik);
     }
 

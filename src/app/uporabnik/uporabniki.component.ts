@@ -29,13 +29,13 @@ export class UporabnikiComponent implements OnInit {
 
     naPodrobnosti(uporabnik: Uporabnik): void {
         this.uporabnik = uporabnik;
-        this.router.navigate(['/uporabniki', this.uporabnik.username]);
+        this.router.navigate(['/uporabniki', this.uporabnik.id]);
     }
 
     delete(uporabnik: Uporabnik): void {
         this.uporabnikService
-            .delete(uporabnik.username)
-            .subscribe(uporabnikUsername => this.uporabniki = this.uporabniki.filter(u => u.username !== uporabnikUsername));
+            .delete(uporabnik.id)
+            .subscribe(id => this.uporabniki = this.uporabniki.filter(u => u.id !== id));
     }
 
     dodajUporabnika(): void {
