@@ -1,4 +1,4 @@
-# Frontedn-Angular
+# Frontend-Angular
 
 A simple Angular frontend. Run using:
 
