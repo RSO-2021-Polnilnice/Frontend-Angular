@@ -1,0 +1,28 @@
+p {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.login {
+    margin: auto;
+    position: relative;
+    width: 30vw;
+    height: fit-content;
+    top: 100px;
+    box-shadow: 0 0 20px 0px #706969;
+}
+
+.login h1 {
+    color: #4b4b4b;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.inputs {
+    margin: 20px;
+}
+
+.fullwidth {
+    width: -webkit-fill-available;
+}

@@ -1,71 +1,219 @@
 h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 250%;
+    color: #369;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 250%;
 }
 
 .selected {
-  background-color: #CFD8DC !important;
-  color: white;
+    background-color: #cfd8dc !important;
+    color: white;
 }
 .uporabniki {
-  margin: 0 0 2em 0;
-  list-style-type: none;
-  padding: 0;
-  width: 15em;
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 15em;
 }
 .uporabniki li {
-  cursor: pointer;
-  position: relative;
-  left: 0;
-  background-color: #EEE;
-  margin: .5em;
-  padding: .3em 0 0 .3em;
-  height: 1.6em;
-  border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    left: 0;
+    background-color: #eee;
+    margin: 0.5em;
+    padding: 0.3em 0 0 0.3em;
+    height: 1.6em;
+    border-radius: 4px;
 }
 .uporabniki li:hover {
-  color: #607D8B;
-  background-color: #DDD;
-  left: .1em;
+    color: #607d8b;
+    background-color: #ddd;
+    left: 0.1em;
 }
 .uporabniki li.selected:hover {
-  background-color: #BBD8DC !important;
-  color: white;
+    background-color: #bbd8dc !important;
+    color: white;
 }
 .uporabniki .text {
-  position: relative;
-  top: -3px;
+    position: relative;
+    top: -3px;
 }
 .uporabniki .badge {
-  display: inline-block;
-  font-size: small;
-  color: white;
-  padding: 0.8em 0.7em 0 0.7em;
-  background-color: #607D8B;
-  line-height: 1em;
-  position: relative;
-  left: -1px;
-  top: -4px;
-  height: 1.8em;
-  margin-right: .8em;
-  border-radius: 4px 0 0 4px;
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color: #607d8b;
+    line-height: 1em;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    height: 1.8em;
+    margin-right: 0.8em;
+    border-radius: 4px 0 0 4px;
 }
 button {
-  font-family: Arial;
-  background-color: #eee;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  cursor: hand;
+    font-family: Arial;
+    background-color: #eee;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    cursor: hand;
 }
 button:hover {
-  background-color: #cfd8dc;
+    background-color: #cfd8dc;
 }
 button.delete {
-  float:right;
-  margin-right: .8em;
-  background-color: gray !important;
-  color:white;
+    float: right;
+    margin-right: 0.8em;
+    background-color: gray !important;
+    color: white;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.hoverzoom {
+    transform: scale(1);
+    transition: transform ease-in 0.05s;
+}
+.hoverzoom:hover {
+    transform: scale(1.1);
+    transition: transform ease-in 0.05s;
+}
+
+/** TOAST **/
+
+/* The snackbar - position it at the bottom and in the middle of the screen */
+.snackbar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    background-color: rgb(105, 105, 105); /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 10; /* Add a z-index if needed */
+    left: 90%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+}
+
+.snackbarsuccess {
+    background-color: rgb(137, 201, 54);
+    color: white;
+}
+.snackbarerror {
+    background-color: rgb(204, 39, 39);
+    color: white;
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+.snackbar.show {
+    visibility: visible; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+	However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+/** TOAST **/
+
+/** ICONS **/
+
+.iconSettings {
+    background-image: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="cog" class="svg-inline--fa fa-cog fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M487.4 315.7l-42.6-24.6c4.3-23.2 4.3-47 0-70.2l42.6-24.6c4.9-2.8 7.1-8.6 5.5-14-11.1-35.6-30-67.8-54.7-94.6-3.8-4.1-10-5.1-14.8-2.3L380.8 110c-17.9-15.4-38.5-27.3-60.8-35.1V25.8c0-5.6-3.9-10.5-9.4-11.7-36.7-8.2-74.3-7.8-109.2 0-5.5 1.2-9.4 6.1-9.4 11.7V75c-22.2 7.9-42.8 19.8-60.8 35.1L88.7 85.5c-4.9-2.8-11-1.9-14.8 2.3-24.7 26.7-43.6 58.9-54.7 94.6-1.7 5.4.6 11.2 5.5 14L67.3 221c-4.3 23.2-4.3 47 0 70.2l-42.6 24.6c-4.9 2.8-7.1 8.6-5.5 14 11.1 35.6 30 67.8 54.7 94.6 3.8 4.1 10 5.1 14.8 2.3l42.6-24.6c17.9 15.4 38.5 27.3 60.8 35.1v49.2c0 5.6 3.9 10.5 9.4 11.7 36.7 8.2 74.3 7.8 109.2 0 5.5-1.2 9.4-6.1 9.4-11.7v-49.2c22.2-7.9 42.8-19.8 60.8-35.1l42.6 24.6c4.9 2.8 11 1.9 14.8-2.3 24.7-26.7 43.6-58.9 54.7-94.6 1.5-5.5-.7-11.3-5.6-14.1zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z"></path></svg>');
+    background-repeat: no-repeat;
+}
+
+.no-pointer-events {
+    pointer-events: none;
+}
+
+.modal-hidden {
+    opacity: 0;
+    background-color: #00000000;
+    transition: opacity 0.5s ease, background-color 0.5s ease;
+
+    pointer-events: none;
+}
+.modal-show {
+    opacity: 1;
+    background-color: #00000047;
+    transition: opacity 0.5s ease, background-color 0.5s ease;
+}
+
+.modal {
+    position: absolute;
+    display: block;
+}
+
+.charging-yes {
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: greenyellow;
+}
+.charging-no {
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: red;
+}
+
+.very-small-btn {
+    font-weight: 100;
+    font-size: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding: 0px 10px;
 }

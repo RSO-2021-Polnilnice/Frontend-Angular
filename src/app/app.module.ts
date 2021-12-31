@@ -1,33 +1,22 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from "@angular/common/http";
+import { FormsModule } from "@angular/forms";
 
-import {AppRoutingModule} from './app-routing.module';
+import { AppRoutingModule } from "./app-routing.module";
 
-import {AppComponent} from './app.component';
-import {UporabnikiComponent} from './uporabnik/uporabniki.component';
-import {UporabnikiDodajComponent} from './uporabnik/uporabniki-dodaj.component';
-import {UporabnikPodrobnostiComponent} from './uporabnik/uporabnik-podrobnosti.component';
-import {UporabnikService} from './uporabnik/services/uporabnik.service';
-
+import { AppComponent } from "./app.component";
+import { MagicService } from "./uporabnik/services/uporabnik.service";
+import { PolnilniceComponent } from "./polnilnice/polnilnice.component";
+import { HomeComponent } from "./home/home.component";
+import { AuthComponent } from "./auth/auth.component";
+import { NotfoundComponent } from "./notfound/notfound.component";
+import { SidebarComponent } from "./sidebar/sidebar.component";
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        AppRoutingModule,
-        FormsModule
-    ],
-    declarations: [
-        AppComponent,
-        UporabnikiComponent,
-        UporabnikPodrobnostiComponent,
-        UporabnikiDodajComponent
-    ],
-    providers: [UporabnikService],
-    bootstrap: [AppComponent]
+    imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
+    declarations: [AppComponent, PolnilniceComponent, HomeComponent, AuthComponent, NotfoundComponent, SidebarComponent],
+    providers: [MagicService],
+    bootstrap: [AppComponent],
 })
-export class AppModule {
-}
-
+export class AppModule {}

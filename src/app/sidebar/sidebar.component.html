@@ -1,0 +1,81 @@
+<div class="navbar">
+    <p routerlink="['home']" class="mx-5 clickable hoverzoom">Home</p>
+    <div class="float-right d-flex justify-content-center">
+        <!--  <p (click)="logout()" class="mx-5 clickable hoverzoom">Logout</p> -->
+        <p class="mx-3">
+            Hello <b>{{ user?.username }}</b>
+        </p>
+        <div (click)="toggleModal()" class="iconSettings clickable hoverzoom px-2" style="margin-top: 2px; margin-right: 10px">&nbsp;</div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="showPasswordChangeModal === true" [ngClass]="{ 'modal-show': showPasswordChangeModal === true, 'modal-hidden': showPasswordChangeModal === false }" class="modal">
+    <div [ngClass]="{ 'no-pointer-events': showPasswordChangeModal === false }" class="modal-dialog modal-dialog-centered" style="transform: scale(0.9)" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">Change password</h4>
+                <button (click)="toggleModalPassword()" type="button" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <input *ngIf="passwordStage === 1" [ngModelOptions]="{ standalone: true }" [(ngModel)]="retypePassword" type="password" placeholder="Old password" autocomplete="on" />
+
+                    <input *ngIf="passwordStage !== 1" [ngModelOptions]="{ standalone: true }" [(ngModel)]="newPassword" type="password" placeholder="New password" autocomplete="on" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="passwordStage === 1" (click)="passwordStageAction()" type="button" class="btn btn-block btn-success" style="width: -webkit-fill-available">Check</button>
+                <button *ngIf="passwordStage === 2" (click)="passwordStageAction()" type="button" class="btn btn-block btn-success" style="width: -webkit-fill-available">Change my password</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div [ngClass]="{ 'modal-show': showUserModal === true, 'modal-hidden': showUserModal === false }" class="modal" id="users_modal" style="z-index: 0">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">User settings</h4>
+                <button (click)="toggleModal()" type="button" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Username</label>
+                    <p class="h3 mx-1">{{ user?.username }}</p>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <label>Balance</label>
+                            <button class="btn very-small-btn btn-primary">Add funds</button>
+                        </div>
+                        <p class="h5 mx-1">{{ user?.funds }} €</p>
+                    </div>
+                    <div>
+                        <label>Charging</label>
+                        <div [ngClass]="{ 'charging-yes': user_charging === true, 'charging-no': user_charging === false }">&nbsp;</div>
+                    </div>
+                </div>
+                <label class="mt-2">Full name</label>
+                <p class="h5 mx-1">{{ user?.firstName }} {{ user?.lastName }}</p>
+                <label class="mt-2">Email address</label>
+                <p class="h5 mx-1">{{ user?.email }}</p>
+                <div class="d-flex justify-content-between mt-3">
+                    <button (click)="logout()" class="btn btn-sm btn-secondary">Log out</button>
+                    <button (click)="showPasswordChangeModal = true" class="btn btn-sm btn-secondary">Change my password</button>
+                    <button (click)="deleteUser()" class="btn btn-sm btn-danger">Delete my account</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button (click)="toggleModal()" type="button" class="btn btn-block btn-secondary" style="width: -webkit-fill-available">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="snackbar_sidebar" style="z-index: 10" class="snackbar">{{ toastMessage }}</div>

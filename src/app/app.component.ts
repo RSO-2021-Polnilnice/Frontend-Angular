@@ -1,13 +1,19 @@
-import {Component} from '@angular/core';
+import { Component } from "@angular/core";
+import { MagicService } from "./uporabnik/services/uporabnik.service";
+import { Router } from "@angular/router";
 
 @Component({
     moduleId: module.id,
-    selector: 'prpo-app',
-    template: `
-        <h1>{{naslov}}</h1>
-        <router-outlet></router-outlet>
-    `
+    selector: "prpo-app",
+    template: `<router-outlet></router-outlet> `,
 })
 export class AppComponent {
-    naslov = 'PRPO: Primer spletne aplikacije';
+    // Redirect if not logged in
+    constructor(magicService: MagicService, router: Router) {
+        if (!magicService.isLoggedIn()) {
+            console.log("redirect ");
+
+            router.navigate(["authentication"]);
+        }
+    }
 }

@@ -1,0 +1,11 @@
+.navbar {
+    background-color: gainsboro;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+p {
+    margin-bottom: 0;
+}
