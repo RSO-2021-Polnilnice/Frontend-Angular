@@ -9,6 +9,7 @@ import { environment } from "../../../environments/environment";
 import { Racun } from "../models/racun";
 import { ThrowStmt } from "@angular/compiler";
 import { Polnilnica } from "../models/polnilnica";
+import { Ocena } from "../models/ocena";
 
 @Injectable()
 export class MagicService {
@@ -30,6 +31,18 @@ export class MagicService {
             this.user = JSON.parse(localStorage.getItem("userJson"));
         }
     }
+
+    //================ RACUNI ================
+    getRate(): Observable<number> {
+        return this.http.get<number>(this.racuniUrl + "/cenik");
+    }
+
+    reserve(racun: Racun): Observable<Racun> {
+        let body = { racun: racun, u_host: environment["uporabnikiBaseUrl"], p_host: environment["polnilniceBaseUrl"] };
+        return this.http.post<Racun>(this.racuniUrl + "/rezerviraj", JSON.stringify(body), { headers: this.headers });
+    }
+    //================/ RACUNI ================
+
     //================ POLNILNICE ================
     getPolnilniceGraphQL(): Observable<Polnilnica[]> {
         let graphqlJson = `
@@ -55,6 +68,10 @@ export class MagicService {
     }
     getPolnilnica(polnilnicaId: number): Observable<Polnilnica> {
         return this.http.get<Polnilnica>(this.polnilniceUrl + "/" + polnilnicaId);
+    }
+
+    postComment(comment: Ocena, polnilnicaId: number): Observable<Ocena> {
+        return this.http.post<Ocena>(this.polnilniceUrl + "/" + polnilnicaId + "/ocene", JSON.stringify(comment), { headers: this.headers });
     }
     //================/ POLNILNICE ================
 

@@ -73,7 +73,7 @@ export class AuthComponent implements OnInit {
                 this.toast("Your account has been created.\n You can now log in.", true);
             },
             (error) => {
-                this.toast(error, false);
+                this.toast("Duplicate data.", false);
             }
         );
     }

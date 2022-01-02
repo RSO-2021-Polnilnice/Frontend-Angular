@@ -1,7 +1,7 @@
 <app-sidebar></app-sidebar>
 <div class="polnilnice-list">
     <h1 class="polnilnice-h1 mb-5">Charging stations</h1>
-    <div (click)="togglePolnilnicaModal(polnilnica)" class="polnilnica-list-item clickable hoverzoom-1" *ngFor="let polnilnica of polnilnice">
+    <div (click)="togglePolnilnicaModal(polnilnica, i)" class="polnilnica-list-item clickable hoverzoom-1" *ngFor="let polnilnica of polnilnice; let i = index">
         <p class="polnilnica-title">{{ polnilnica.ime }}</p>
         <div class="d-flex">
             <label>Avg. rating: &nbsp;</label>
@@ -11,13 +11,13 @@
     </div>
 </div>
 
-<div *ngIf="modalPolnilnica" [ngClass]="{ 'modal-show': modalPolnilnica.ime, 'modal-hidden': !modalPolnilnica.ime }" class="modal" id="users_modal" aria-hidden="true">
+<div *ngIf="modalPolnilnica" [ngClass]="{ 'modal-show': modalPolnilnica.ime, 'modal-hidden': !modalPolnilnica.ime }" class="modal" aria-hidden="true">
     <div class="modal-dialog modal-polnilnica modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLongTitle">{{ modalPolnilnica.ime }}</h4>
 
-                <button (click)="togglePolnilnicaModal(null)" type="button" class="close">
+                <button (click)="togglePolnilnicaModal(null, -1)" type="button" class="close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -26,7 +26,8 @@
                     <div style="width: 400px">
                         <!-- =================== Comments =================== -->
                         <div class="d-flex">
-                            <label style="margin-right: 110px; font-size: 20px">Comments</label>
+                            <label style="font-size: 20px">Comments</label>
+                            <button (click)="toggleCommentModal()" class="btb btn-primary very-small-btn" style="margin-right: 110px">Add</button>
                             <label>Avg. rating: &nbsp;</label>
                             <div *ngIf="getAverageOcena(modalPolnilnica.id)" class="ocena-avg">{{ getAverageOcena(modalPolnilnica.id) }}</div>
                             <div *ngIf="!getAverageOcena(modalPolnilnica.id)" class="ocena-avg">?</div>
@@ -35,6 +36,7 @@
                             <div class="ocena" *ngFor="let ocena of modalPolnilnica.ocene">
                                 "{{ ocena.besedilo }}"
                                 <div class="ocena-stars">{{ ocena.ocena }}/5</div>
+                                <div (click)="report(ocena)" class="ocena-report">Report</div>
                             </div>
                             <div *ngIf="modalPolnilnica.ocene.length === 0" style="margin: 15px; text-align: center; font-weight: 100; font-style: italic">No comments yet</div>
                         </div>
@@ -43,28 +45,28 @@
                         <div>
                             <div>Timeslots</div>
                             <div style="width: 380px; margin-top: 5px" class="d-flex justify-content-between">
-                                <div (click)="terminiSelected = 1" class="termini-select hoverzoom" [ngClass]="{ 'termini-selected': terminiSelected === 1 }">{{ getDateString(termini1[1]) }}</div>
-                                <div (click)="terminiSelected = 2" class="termini-select hoverzoom" [ngClass]="{ 'termini-selected': terminiSelected === 2 }">{{ getDateString(termini2[1]) }}</div>
-                                <div (click)="terminiSelected = 3" class="termini-select hoverzoom" [ngClass]="{ 'termini-selected': terminiSelected === 3 }">{{ getDateString(termini3[1]) }}</div>
+                                <div (click)="terminiSelected = 1; calculateTermini(1)" class="termini-select hoverzoom" [ngClass]="{ 'termini-selected': terminiSelected === 1 }">{{ getDateString(termini1[1]) }}</div>
+                                <div (click)="terminiSelected = 2; calculateTermini(2)" class="termini-select hoverzoom" [ngClass]="{ 'termini-selected': terminiSelected === 2 }">{{ getDateString(termini2[1]) }}</div>
+                                <div (click)="terminiSelected = 3; calculateTermini(3)" class="termini-select hoverzoom" [ngClass]="{ 'termini-selected': terminiSelected === 3 }">{{ getDateString(termini3[1]) }}</div>
                             </div>
                         </div>
                         <div class="termin-list">
                             <div *ngIf="terminiSelected === 1">
                                 <div class="termin" *ngFor="let termin of termini1; let i = index">
                                     <div class="termin-timestamp">{{ getTimeString(termin) }}</div>
-                                    <div (click)="rezervirajTermin(termin)" class="termin-marker">&nbsp;</div>
+                                    <div (click)="rezervirajTermin(termin, 1, i)" class="termin-marker" [ngClass]="{ 'termin-taken': zasedeno[i] === 2, 'termin-mine': zasedeno[i] === 1 }">&nbsp;</div>
                                 </div>
                             </div>
                             <div *ngIf="terminiSelected === 2">
                                 <div class="termin" *ngFor="let termin of termini2; let i = index">
                                     <div class="termin-timestamp">{{ getTimeString(termin) }}</div>
-                                    <div (click)="rezervirajTermin(termin)" class="termin-marker">&nbsp;</div>
+                                    <div (click)="rezervirajTermin(termin, 2, i)" class="termin-marker" [ngClass]="{ 'termin-taken': zasedeno[i] === 2, 'termin-mine': zasedeno[i] === 1 }">&nbsp;</div>
                                 </div>
                             </div>
                             <div *ngIf="terminiSelected === 3">
                                 <div class="termin" *ngFor="let termin of termini3; let i = index">
                                     <div class="termin-timestamp">{{ getTimeString(termin) }}</div>
-                                    <div (click)="rezervirajTermin(termin)" class="termin-marker">&nbsp;</div>
+                                    <div (click)="rezervirajTermin(termin, 3, i)" class="termin-marker" [ngClass]="{ 'termin-taken': zasedeno[i] === 2, 'termin-mine': zasedeno[i] === 1 }">&nbsp;</div>
                                 </div>
                             </div>
                         </div>
@@ -76,8 +78,35 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button (click)="togglePolnilnicaModal(null)" type="button" class="btn btn-block btn-secondary" style="width: -webkit-fill-available">Close</button>
+                <button (click)="togglePolnilnicaModal(null, -1)" type="button" class="btn btn-block btn-secondary" style="width: -webkit-fill-available">Close</button>
             </div>
         </div>
     </div>
 </div>
+
+<div *ngIf="isCommentModalOpen" [ngClass]="{ 'modal-show': isCommentModalOpen, 'modal-hidden': !isCommentModalOpen }" class="modal" aria-hidden="true">
+    <div class="modal-dialog modal-polnilnica modal-dialog-centered" role="document">
+        <div class="modal-content" style="width: 600px; margin: auto">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">Add comment</h4>
+                <button (click)="toggleCommentModal()" type="button" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="stars">
+                    <span *ngFor="let star of stars; let i = index" (click)="setStars(i, true)" [ngClass]="{ checked: stars[i] }" class="fa fa-star clickable hoverzoom-1"></span>
+                </div>
+                <div class="d-flex">
+                    <textarea [(ngModel)]="text" name="Text1" cols="60" rows="1" placeholder="Enter your comment."></textarea>
+                    <button (click)="comment()" class="btn btn-sm btn-primary mx-2">Post</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button (click)="toggleCommentModal()" type="button" class="btn btn-block btn-secondary" style="width: -webkit-fill-available">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="snackbar_home" style="z-index: 100" class="snackbar">{{ toastMessage }}</div>

@@ -318,6 +318,20 @@ button.delete {
     bottom: 3px;
 }
 
+.ocena-report {
+    font-family: system-ui;
+    font-size: 13px;
+    position: absolute;
+    left: 7px;
+    border-radius: 5px;
+    bottom: 3px;
+    padding: 1px 9px;
+}
+.ocena-report:hover {
+    cursor: pointer;
+    background-color: rgba(255, 0, 0, 0.445);
+}
+
 .termin {
     margin-top: -10px;
 }
@@ -362,4 +376,12 @@ button.delete {
 
 .termini-selected {
     background-color: #abff00ba;
+}
+
+.termin-taken {
+    background-color: #d92b64;
+}
+
+.termin-mine {
+    background-color: lightseagreen;
 }
