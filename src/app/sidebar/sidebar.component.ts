@@ -13,23 +13,23 @@ declare var $: any;
 export class SidebarComponent implements OnInit {
     constructor(private magicService: MagicService, private router: Router) {}
 
-    private user: Uporabnik = null;
-    private retypePassword: String = "";
-    private newPassword = "";
-    private passwordStage: Number = 1;
+    public user: Uporabnik = null;
+    public retypePassword: String = "";
+    public newPassword = "";
+    public passwordStage: Number = 1;
 
-    private user_charging: Boolean = false;
+    public user_charging: Boolean = false;
 
-    private showUserModal: Boolean = false;
-    private showPasswordChangeModal: Boolean = false;
+    public showUserModal: Boolean = false;
+    public showPasswordChangeModal: Boolean = false;
 
-    private showAddFundsModal: Boolean = false;
+    public showAddFundsModal: Boolean = false;
 
-    private cardCVV: string = "702";
-    private cardAmount: number = 10;
-    private cardNumber: string = "4987 08XX XXXX XXXX";
+    public cardCVV: string = "702";
+    public cardAmount: number = 10;
+    public cardNumber: string = "4987 08XX XXXX XXXX";
 
-    private toastMessage: String = "";
+    public toastMessage: String = "";
 
     ngOnInit() {
         if (!this.magicService.isLoggedIn()) {

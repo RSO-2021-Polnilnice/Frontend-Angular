@@ -12,16 +12,16 @@ import { Router } from "@angular/router";
     styleUrls: ["./auth.component.css"],
 })
 export class AuthComponent implements OnInit {
-    private headers = new HttpHeaders({ "Content-Type": "application/json" });
+    public headers = new HttpHeaders({ "Content-Type": "application/json" });
 
-    private uporabnikBaseURl = environment["uporabnikiBaseUrl"] + "/v1/uporabniki";
+    public uporabnikBaseURl = environment["uporabnikiBaseUrl"] + "/v1/uporabniki";
 
-    private type = "login";
-    private toastMessage = "";
+    public type = "login";
+    public toastMessage = "";
 
-    private uporabnikLogin: Uporabnik = new Uporabnik();
-    private uporabnik: Uporabnik = new Uporabnik();
-    private password2: string;
+    public uporabnikLogin: Uporabnik = new Uporabnik();
+    public uporabnik: Uporabnik = new Uporabnik();
+    public password2: string;
 
     constructor(private magicService: MagicService, private router: Router, private http: HttpClient) {}
 

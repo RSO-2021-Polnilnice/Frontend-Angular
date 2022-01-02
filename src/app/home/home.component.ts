@@ -16,31 +16,31 @@ import { MagicService } from "../uporabnik/services/uporabnik.service";
 export class HomeComponent implements OnInit {
     constructor(private magicService: MagicService, private router: Router) {}
 
-    private polnilnice: Polnilnica[] = null;
-    private modalPolnilnica: Polnilnica = null;
-    private modalPolnilnicaIx: number = null;
-    private iframeurl: string = null;
+    public polnilnice: Polnilnica[] = null;
+    public modalPolnilnica: Polnilnica = null;
+    public modalPolnilnicaIx: number = null;
+    public iframeurl: string = null;
 
-    private termini1: number[] = [];
-    private termini2: number[] = [];
-    private termini3: number[] = [];
-    private timestamp1: number = null;
-    private timestamp2: number = null;
-    private timestamp3: number = null;
+    public termini1: number[] = [];
+    public termini2: number[] = [];
+    public termini3: number[] = [];
+    public timestamp1: number = null;
+    public timestamp2: number = null;
+    public timestamp3: number = null;
 
-    private zasedeno: number[] = [];
+    public zasedeno: number[] = [];
 
-    private terminiSelected = 1;
+    public terminiSelected = 1;
 
-    private days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    private months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    public days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    public months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-    private addOcena: Ocena = new Ocena();
-    private stars: boolean[] = [false, false, false, false, false];
-    private text: string = "";
-    private isCommentModalOpen: boolean = false;
+    public addOcena: Ocena = new Ocena();
+    public stars: boolean[] = [false, false, false, false, false];
+    public text: string = "";
+    public isCommentModalOpen: boolean = false;
 
-    private toastMessage: String = "";
+    public toastMessage: String = "";
 
     togglePolnilnicaModal(polnilnica: Polnilnica, ix: number) {
         console.log(polnilnica);

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frontend-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: frontend
+    template:
+        metadata:
+            labels:
+                app: frontend
+        spec:
+            containers:
+                - image: rso2021jklk/frontend:latest
+                  name: frontend
+                  ports:
+                      - containerPort: 8080
+                        name: server
+                        protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: frontend
+spec:
+    type: LoadBalancer
+    ports:
+        - port: 8080
+          protocol: TCP
+          targetPort: server
+    selector:
+        app: frontend

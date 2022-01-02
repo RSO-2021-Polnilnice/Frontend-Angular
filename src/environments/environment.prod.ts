@@ -1,4 +1,9 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://api.prpo.si/v1'
+    uporabnikiBaseUrl: "http://20.83.140.172/uporabniki",
+    polnilniceBaseUrl: "http://20.83.140.172/polnilnice",
+    racuniBaseUrl: "http://20.83.140.172/racuni",
+    adminBaseUrl: "http://20.83.140.172/admin",
+    iskanjeBaseUrl: "http://20.83.140.172/iskanje",
+    mailBaseUrl: "http://20.83.140.172/novice",
 };
