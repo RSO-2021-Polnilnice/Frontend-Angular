@@ -23,6 +23,12 @@ export class SidebarComponent implements OnInit {
     private showUserModal: Boolean = false;
     private showPasswordChangeModal: Boolean = false;
 
+    private showAddFundsModal: Boolean = false;
+
+    private cardCVV: string = "702";
+    private cardAmount: number = 10;
+    private cardNumber: string = "4987 08XX XXXX XXXX";
+
     private toastMessage: String = "";
 
     ngOnInit() {
@@ -50,6 +56,38 @@ export class SidebarComponent implements OnInit {
         this.showPasswordChangeModal = !this.showPasswordChangeModal;
     }
 
+    toggleModalFunds() {
+        this.showAddFundsModal = !this.showAddFundsModal;
+    }
+
+    nakaziFunds() {
+        if (!this.cardNumber || this.cardNumber.length != "4987 08XX XXXX XXXX".length) {
+            this.toast("Incorrect card number format.", false);
+            return;
+        }
+        if (!this.cardCVV || this.cardCVV.length != 3) {
+            this.toast("Incorrect CVV format.", false);
+            return;
+        }
+        if (this.cardAmount < 0.5) {
+            this.toast("We only accept top ups above 0.50€.", false);
+            return;
+        }
+
+        this.magicService.nakaziDenar(this.user.id, this.cardAmount).subscribe(
+            (data) => {
+                console.log(data);
+                this.toast("Funds successfuly transferred.", true);
+                this.magicService.userAddFunds(this.cardAmount);
+                this.showAddFundsModal = false;
+            },
+            (error) => {
+                console.log("error: ", error);
+                this.toast("Transferring funds unsucessful.\nProblem with api.", false);
+            }
+        );
+    }
+
     passwordStageAction() {
         if (this.passwordStage === 1) {
             if (this.retypePassword !== this.user.password) {
@@ -70,6 +108,7 @@ export class SidebarComponent implements OnInit {
                     this.showPasswordChangeModal = false;
                 },
                 (error) => {
+                    console.log("error: ", error);
                     this.toast("Problem with api.", false);
                 }
             );
@@ -84,6 +123,7 @@ export class SidebarComponent implements OnInit {
                     this.logout();
                 },
                 (error) => {
+                    console.log(error);
                     this.toast("Problem with api.", false);
                 }
             );

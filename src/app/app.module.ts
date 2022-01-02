@@ -12,10 +12,11 @@ import { HomeComponent } from "./home/home.component";
 import { AuthComponent } from "./auth/auth.component";
 import { NotfoundComponent } from "./notfound/notfound.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
+import { SafePipePipe } from "./safe-pipe.pipe";
 
 @NgModule({
     imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule],
-    declarations: [AppComponent, PolnilniceComponent, HomeComponent, AuthComponent, NotfoundComponent, SidebarComponent],
+    declarations: [AppComponent, PolnilniceComponent, HomeComponent, AuthComponent, NotfoundComponent, SidebarComponent, SafePipePipe],
     providers: [MagicService],
     bootstrap: [AppComponent],
 })

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Vollkorn:ital,wght@0,600;1,500&display=swap");
 h1 {
     color: #369;
     font-family: Arial, Helvetica, sans-serif;
@@ -70,6 +71,20 @@ button.delete {
     color: white;
 }
 
+.background {
+    background-image: url(https://ventus.global/vendors/flaticon/029-wind-energy.svg);
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 100%;
+    height: 85%;
+    background-size: contain;
+    background-position: right;
+    top: 15%;
+    /* filter: blur(1px); */
+    opacity: 0.5;
+    filter: grayscale(1);
+}
+
 .clickable {
     cursor: pointer;
 }
@@ -78,8 +93,16 @@ button.delete {
     transform: scale(1);
     transition: transform ease-in 0.05s;
 }
+.hoverzoom-1 {
+    transform: scale(1);
+    transition: transform ease-in 0.05s;
+}
 .hoverzoom:hover {
     transform: scale(1.1);
+    transition: transform ease-in 0.05s;
+}
+.hoverzoom-1:hover {
+    transform: scale(1.02);
     transition: transform ease-in 0.05s;
 }
 
@@ -195,6 +218,11 @@ button.delete {
     display: block;
 }
 
+.modal-polnilnica {
+    width: 1100px !important;
+    max-width: 1100px !important;
+}
+
 .charging-yes {
     margin: auto;
     width: 20px;
@@ -216,4 +244,122 @@ button.delete {
     margin-top: 5px;
     margin-left: 5px;
     padding: 0px 10px;
+}
+
+.checked {
+    color: orange;
+}
+
+.polnilnice-h1 {
+    color: black;
+    font-family: unset;
+    font-weight: 300;
+    margin: auto;
+    text-align: center;
+    position: relative;
+    top: 20px;
+}
+
+.polnilnica-title {
+    font-size: 20px;
+}
+
+.polnilnice-list {
+    max-width: 600px;
+    margin: auto;
+}
+
+.polnilnica-list-item {
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-top: 15px;
+    padding: 20px 30px;
+    box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
+}
+
+.map-div {
+    float: right;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.ocena {
+    width: 380px;
+    box-shadow: rgb(0 0 0 / 18%) 0px 2px 4px, rgb(0 0 0 / 16%) 0px 7px 13px -3px, rgb(0 0 0 / 20%) 0px -3px 0px inset;
+
+    border-radius: 4px;
+    margin-top: 10px;
+    padding: 10px;
+    padding-top: 12px;
+    text-align: center;
+    font-family: Vollkorn;
+    font-style: italic;
+    position: relative;
+}
+
+.ocena-list {
+    max-height: 145px;
+    overflow-y: auto;
+}
+
+.ocena-avg {
+    box-shadow: rgb(60 64 67 / 30%) 0px 1px 2px 0px, rgb(60 64 67 / 15%) 0px 1px 3px 1px;
+    padding: 0px 4px;
+    height: 25px;
+    width: 30px;
+    text-align: center;
+}
+
+.ocena-stars {
+    font-family: system-ui;
+    font-size: 13px;
+    position: absolute;
+    right: 7px;
+    bottom: 3px;
+}
+
+.termin {
+    margin-top: -10px;
+}
+
+.termin-list {
+    max-height: 310px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    bottom: 20px;
+    width: 400px;
+    margin-top: 60px;
+}
+
+.termin-timestamp {
+    font-size: 12px;
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+
+.termin-marker {
+    width: 340px;
+    box-shadow: rgb(9 30 66 / 25%) 0px 4px 8px -2px, rgb(9 30 66 / 8%) 0px 0px 0px 1px;
+    border-radius: 3px;
+    position: relative;
+    left: 40px;
+}
+.termin-marker:hover {
+    transform: scale(1.01);
+    background-color: rgb(225 240 255);
+    cursor: pointer;
+}
+
+.termini-select {
+    cursor: pointer;
+    font-size: 12px;
+    background-color: #e3e3e3;
+    padding: 2px 15px;
+    border-radius: 10px;
+}
+
+.termini-selected {
+    background-color: #abff00ba;
 }

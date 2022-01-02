@@ -9,8 +9,82 @@
     </div>
 </div>
 
+<div *ngIf="showUserModal" [ngClass]="{ 'modal-show': showUserModal, 'modal-hidden': !showUserModal }" class="modal" id="users_modal" style="z-index: 1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">User settings</h4>
+                <button (click)="toggleModal()" type="button" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>Username</label>
+                    <p class="h3 mx-1">{{ user?.username }}</p>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                    <div>
+                        <div class="d-flex justify-content-between">
+                            <label>Balance</label>
+                            <button (click)="toggleModalFunds()" class="btn very-small-btn btn-primary">Add funds</button>
+                        </div>
+                        <p class="h5 mx-1">{{ user?.funds }} €</p>
+                    </div>
+                    <div>
+                        <label>Charging</label>
+                        <div [ngClass]="{ 'charging-yes': user_charging === true, 'charging-no': user_charging === false }">&nbsp;</div>
+                    </div>
+                </div>
+
+                <label class="mt-2">Full name</label>
+                <p class="h5 mx-1">{{ user?.firstName }} {{ user?.lastName }}</p>
+                <label class="mt-2">Email address</label>
+                <p class="h5 mx-1">{{ user?.email }}</p>
+                <div class="d-flex justify-content-between mt-3">
+                    <button (click)="logout()" class="btn btn-sm btn-secondary">Log out</button>
+                    <button (click)="showPasswordChangeModal = true" class="btn btn-sm btn-secondary">Change my password</button>
+                    <button (click)="deleteUser()" class="btn btn-sm btn-danger">Delete my account</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button (click)="toggleModal()" type="button" class="btn btn-block btn-secondary" style="width: -webkit-fill-available">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal -->
-<div *ngIf="showPasswordChangeModal === true" [ngClass]="{ 'modal-show': showPasswordChangeModal === true, 'modal-hidden': showPasswordChangeModal === false }" class="modal">
+<div *ngIf="showAddFundsModal" [ngClass]="{ 'modal-show': showAddFundsModal === true, 'modal-hidden': showAddFundsModal === false }" class="modal" aria-hidden="true" style="z-index: 2">
+    <div [ngClass]="{ 'no-pointer-events': showAddFundsModal === false }" class="modal-dialog modal-dialog-centered" style="transform: scale(0.9)" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">Add funds</h4>
+                <button (click)="toggleModalFunds()" type="button" class="close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div style="display: inline-grid">
+                        <label>Card number</label>
+                        <input class="mx-1" [ngModelOptions]="{ standalone: true }" [(ngModel)]="cardNumber" placeholder="4987 0822 1234 5678" />
+                        <label class="mt-2">CVV</label>
+                        <input class="mx-1" [ngModelOptions]="{ standalone: true }" [(ngModel)]="cardCVV" placeholder="702" />
+                        <label class="mt-2">Amount (€)</label>
+                        <input class="mx-1" [ngModelOptions]="{ standalone: true }" [(ngModel)]="cardAmount" type="number" placeholder="Enter amount" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button (click)="nakaziFunds()" type="button" class="btn btn-block btn-success" style="width: -webkit-fill-available">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="showPasswordChangeModal === true" [ngClass]="{ 'modal-show': showPasswordChangeModal === true, 'modal-hidden': showPasswordChangeModal === false }" class="modal" aria-hidden="true">
     <div [ngClass]="{ 'no-pointer-events': showPasswordChangeModal === false }" class="modal-dialog modal-dialog-centered" style="transform: scale(0.9)" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -29,50 +103,6 @@
             <div class="modal-footer">
                 <button *ngIf="passwordStage === 1" (click)="passwordStageAction()" type="button" class="btn btn-block btn-success" style="width: -webkit-fill-available">Check</button>
                 <button *ngIf="passwordStage === 2" (click)="passwordStageAction()" type="button" class="btn btn-block btn-success" style="width: -webkit-fill-available">Change my password</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div [ngClass]="{ 'modal-show': showUserModal === true, 'modal-hidden': showUserModal === false }" class="modal" id="users_modal" style="z-index: 0">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="exampleModalLongTitle">User settings</h4>
-                <button (click)="toggleModal()" type="button" class="close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <label>Username</label>
-                    <p class="h3 mx-1">{{ user?.username }}</p>
-                </div>
-                <div class="d-flex justify-content-between mt-2">
-                    <div>
-                        <div class="d-flex justify-content-between">
-                            <label>Balance</label>
-                            <button class="btn very-small-btn btn-primary">Add funds</button>
-                        </div>
-                        <p class="h5 mx-1">{{ user?.funds }} €</p>
-                    </div>
-                    <div>
-                        <label>Charging</label>
-                        <div [ngClass]="{ 'charging-yes': user_charging === true, 'charging-no': user_charging === false }">&nbsp;</div>
-                    </div>
-                </div>
-                <label class="mt-2">Full name</label>
-                <p class="h5 mx-1">{{ user?.firstName }} {{ user?.lastName }}</p>
-                <label class="mt-2">Email address</label>
-                <p class="h5 mx-1">{{ user?.email }}</p>
-                <div class="d-flex justify-content-between mt-3">
-                    <button (click)="logout()" class="btn btn-sm btn-secondary">Log out</button>
-                    <button (click)="showPasswordChangeModal = true" class="btn btn-sm btn-secondary">Change my password</button>
-                    <button (click)="deleteUser()" class="btn btn-sm btn-danger">Delete my account</button>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button (click)="toggleModal()" type="button" class="btn btn-block btn-secondary" style="width: -webkit-fill-available">Close</button>
             </div>
         </div>
     </div>
