@@ -5,5 +5,5 @@ export const environment = {
     racuniBaseUrl: "http://20.83.140.172/racuni",
     adminBaseUrl: "http://20.83.140.172/admin",
     iskanjeBaseUrl: "http://20.83.140.172/iskanje",
-    mailBaseUrl: "http://20.83.140.172/novice",
+    noviceBaseUrl: "http://20.83.140.172/novice",
 };

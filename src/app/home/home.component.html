@@ -1,12 +1,22 @@
 <app-sidebar></app-sidebar>
 <div class="polnilnice-list">
-    <h1 class="polnilnice-h1 mb-5">Charging stations</h1>
+    <div class="d-flex">
+        <h1 class="polnilnice-h1 mb-5">Charging stations</h1>
+        <button (click)="searchWithExternalApi()" style="margin: 32px 0px" class="btn btn-outline-primary btn-sm">Search using location</button>
+    </div>
     <div (click)="togglePolnilnicaModal(polnilnica, i)" class="polnilnica-list-item clickable hoverzoom-1" *ngFor="let polnilnica of polnilnice; let i = index">
         <p class="polnilnica-title">{{ polnilnica.ime }}</p>
         <div class="d-flex">
             <label>Avg. rating: &nbsp;</label>
             <div *ngIf="getAverageOcena(polnilnica.id)" class="ocena-avg">{{ getAverageOcena(polnilnica.id) }}</div>
             <div style="font-weight: 100" *ngIf="!getAverageOcena(polnilnica.id)">No ratings yet</div>
+            <div class="x-wrapper" *ngIf="polnilnica.ulica || polnilnica.mesto || polnilnica.cas || polnilnica.razdalja">
+                <div class="d-flex">
+                    <div class="x-mesto" *ngIf="polnilnica.mesto">{{ polnilnica.mesto }}</div>
+                    <div class="x-razdalja" *ngIf="polnilnica.razdalja">{{ polnilnica.razdalja }} Km</div>
+                    <div class="x-cas" *ngIf="polnilnica.cas">{{ getTimeInMins(polnilnica.cas) }} Min</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

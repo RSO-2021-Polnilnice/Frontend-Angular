@@ -385,3 +385,52 @@ button.delete {
 .termin-mine {
     background-color: lightseagreen;
 }
+
+.x-wrapper {
+    position: absolute;
+    right: 0;
+    top: 20px;
+}
+
+.x-cas {
+    background-color: #fff200;
+    padding: 0px 7px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.x-razdalja {
+    background-color: #ef8b00;
+    padding: 0px 7px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.x-mesto {
+    background-color: #d34848;
+    padding: 0px 7px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.x-ulica {
+    font-size: 10px;
+    background-color: #d34848;
+    padding: 0px 7px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.transaction {
+    border-radius: 5px;
+    outline: 1px solid #c1c1c1;
+    padding: 12px 35px;
+    margin: 5px;
+    margin-bottom: 30px;
+}
+
+.transactions {
+    max-height: 600px;
+    overflow-y: auto;
+    width: 460px;
+}

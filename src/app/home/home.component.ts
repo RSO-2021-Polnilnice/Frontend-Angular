@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Ocena } from "../uporabnik/models/ocena";
 import { Polnilnica } from "../uporabnik/models/polnilnica";
 import { Racun } from "../uporabnik/models/racun";
+import { Report } from "../uporabnik/models/report";
 import { Termin } from "../uporabnik/models/termin";
 import { Uporabnik } from "../uporabnik/models/uporabnik";
 import { MagicService } from "../uporabnik/services/uporabnik.service";
@@ -42,6 +43,26 @@ export class HomeComponent implements OnInit {
 
     public toastMessage: String = "";
 
+    getTimeInMins(time: number) {
+        return Math.floor(time / 30);
+    }
+
+    searchWithExternalApi() {
+        this.magicService.getPosition().then((pos) => {
+            console.log(`Positon: ${pos.lng} ${pos.lat}`);
+            this.magicService.callIskanjeApi(pos.lat, pos.lng, this.polnilnice).subscribe(
+                (data) => {
+                    console.log(data);
+
+                    this.polnilnice = data;
+                },
+                (error) => {
+                    console.log("error: ", error);
+                }
+            );
+        });
+    }
+
     togglePolnilnicaModal(polnilnica: Polnilnica, ix: number) {
         console.log(polnilnica);
         this.modalPolnilnica = polnilnica;
@@ -67,7 +88,7 @@ export class HomeComponent implements OnInit {
         const tomorrow = new Date(today);
         const afterTommorow = new Date(today);
         tomorrow.setDate(tomorrow.getDate() + 1);
-        afterTommorow.setDate(tomorrow.getDate() + 2);
+        afterTommorow.setDate(tomorrow.getDate() + 1);
 
         var startOfDay1 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         this.timestamp1 = Math.floor(startOfDay1.getTime() / 1000);
@@ -106,7 +127,26 @@ export class HomeComponent implements OnInit {
 
     report(ocena: Ocena) {
         if (confirm(`Do you really want to report comment "${ocena.besedilo}"?`)) {
-            this.toast("Comment successfuly reported. Admin will attend to it soon :)", true);
+            let r: Report = new Report();
+            r.komentar = ocena.besedilo;
+            r.ocenaId = ocena.id;
+            r.userId = ocena.userId;
+
+            this.magicService.reportComment(r).subscribe(
+                (data) => {
+                    console.log(data);
+                    this.toast("successfuly reported", true);
+                },
+                (error) => {
+                    console.log(error);
+                    if (error.status === 409) {
+                        this.toast("This comment was already reported and should be deleted soon. Thanks.", false);
+                        return;
+                    }
+
+                    this.toast("Something went wrong.", false);
+                }
+            );
         }
     }
 
@@ -249,7 +289,7 @@ export class HomeComponent implements OnInit {
 
     getDateString(timestamp: number) {
         let date = new Date(timestamp * 1000);
-        return `${this.days[date.getDay()]}. ${date.getDay()} ${this.months[date.getMonth()]} ${date.getFullYear()} `;
+        return `${this.days[date.getDay()]}. ${date.getDate()} ${this.months[date.getMonth()]} ${date.getFullYear()} `;
     }
 
     getAverageOcena(id: number) {

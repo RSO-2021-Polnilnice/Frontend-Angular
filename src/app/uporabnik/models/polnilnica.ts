@@ -8,4 +8,8 @@ export class Polnilnica {
     lokacijaLng: number;
     ocene: Ocena[];
     termini: Termin[];
+    cas: number;
+    mesto: string;
+    razdalja: number;
+    ulica: string;
 }

@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { HomeComponent } from "../home/home.component";
+import { Ocena } from "../uporabnik/models/ocena";
+import { Polnilnica } from "../uporabnik/models/polnilnica";
+import { Racun } from "../uporabnik/models/racun";
+import { Report } from "../uporabnik/models/report";
 import { Uporabnik } from "../uporabnik/models/uporabnik";
 import { MagicService } from "../uporabnik/services/uporabnik.service";
 
@@ -11,7 +16,7 @@ declare var $: any;
     styleUrls: ["./sidebar.component.css"],
 })
 export class SidebarComponent implements OnInit {
-    constructor(private magicService: MagicService, private router: Router) {}
+    constructor(private magicService: MagicService, private router: Router, private homeComponent: HomeComponent) {}
 
     public user: Uporabnik = null;
     public retypePassword: String = "";
@@ -31,12 +36,140 @@ export class SidebarComponent implements OnInit {
 
     public toastMessage: String = "";
 
+    public showAdminPanel: boolean = false;
+    public newPolnilnica: Polnilnica = new Polnilnica();
+    public reportList: Report[] = null;
+    public days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    public months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    public showTransactionsModal = false;
+    public transactions: Racun[] = null;
+
+    prettyJson(json: any) {
+        return JSON.stringify(json, null, 2);
+    }
+
+    toggleModalTransactions() {
+        this.showTransactionsModal = !this.showTransactionsModal;
+        if (this.showTransactionsModal) {
+            this.magicService.getUserTransactions(this.user.id).subscribe(
+                (data) => {
+                    console.log(data);
+
+                    this.transactions = data;
+                },
+                (error) => {
+                    console.log(error);
+                    this.toast("Failed getting transactions.", true);
+                }
+            );
+        }
+    }
+
+    createPolnilnica() {
+        console.log(this.newPolnilnica);
+        this.magicService.createPolnilnica(this.newPolnilnica).subscribe(
+            (data) => {
+                console.log(data);
+                this.homeComponent.polnilnice.push(data);
+                this.magicService.callNovice().subscribe(
+                    (data) => {
+                        console.log(data);
+                        this.toast("Created and emails dispatched.", true);
+                    },
+                    (error) => {
+                        console.log(error);
+                        this.toast("Created, but emails were not sent.", true);
+                    }
+                );
+            },
+            (error) => {
+                console.log(error);
+                this.toast("Problem accessing charging stations service.", false);
+            }
+        );
+    }
+
+    getDateString(timestamp: number) {
+        let date = new Date(timestamp * 1000);
+        return `${this.days[date.getDay()]}. ${date.getDate()} ${this.months[date.getMonth()]} ${date.getFullYear()} `;
+    }
+
+    toggleAdminModal() {
+        this.showAdminPanel = !this.showAdminPanel;
+    }
+
+    delete(report: Report, listIx: number) {
+        /* this.magicService.deleteReport(report.id).subscribe(
+            (data) => {
+                console.log(data);
+                this.reportList.splice(listIx, 1);
+                this.toast("Deletion successful.", true);
+            },
+            (error) => {
+                if (error.status === 200) {
+                    this.reportList.splice(listIx, 1);
+                    this.toast("Deletion successful.", true);
+                    return;
+                }
+                this.toast("Problem accessing admin service.", false);
+            }
+        ); */
+
+        this.magicService.deleteOcena(report.ocenaId).subscribe(
+            (data) => {
+                console.log(data);
+                this.toast("Deletion successful.", true);
+            },
+            (error) => {
+                if (error.status === 200) {
+                    this.magicService.deleteReport(report.id).subscribe(
+                        (data) => {
+                            console.log(data);
+                            this.reportList.splice(listIx, 1);
+                            this.toast("Deletion successful.", true);
+                        },
+                        (error) => {
+                            if (error.status === 200) {
+                                this.reportList.splice(listIx, 1);
+                                this.toast("Deletion successful.", true);
+                                return;
+                            }
+                            this.toast("Problem accessing admin service.", false);
+                        }
+                    );
+                }
+                if (error.status === 404) {
+                    this.toast("Rating with this Id does not exist.", false);
+                }
+                this.toast("Problem accessing charging stations service.", false);
+            }
+        );
+    }
+
     ngOnInit() {
         if (!this.magicService.isLoggedIn()) {
             this.router.navigate(["authentication"]);
         }
         this.user = this.magicService.loggedInUser();
         this.user_charging = this.user.charging;
+
+        if (this.amIanAdmin()) {
+            this.magicService.getReports().subscribe(
+                (data) => {
+                    console.log(data);
+                    this.reportList = data;
+                },
+                (error) => {
+                    console.log(error);
+                    if (error.status === 404) {
+                        this.reportList = [];
+                        return;
+                    }
+                    this.toast("Problem getting admin reports", false);
+                }
+            );
+        }
     }
 
     isLoggedIn(): boolean {
@@ -92,9 +225,11 @@ export class SidebarComponent implements OnInit {
         if (this.passwordStage === 1) {
             if (this.retypePassword !== this.user.password) {
                 this.toast("Passwords do not match.", false);
+                return;
             } else {
                 this.passwordStage = 2;
                 this.toast("Passwords match.\nYou can change your password now.", true);
+                return;
             }
         }
         if (this.passwordStage === 2) {
@@ -128,6 +263,12 @@ export class SidebarComponent implements OnInit {
                 }
             );
         }
+    }
+
+    amIanAdmin() {
+        if (!this.user) return false;
+        if (this.user.email === "admin@rso2021.com") return true;
+        return false;
     }
 
     // Very simple toast... make sure to include html in the component you want to use:)
