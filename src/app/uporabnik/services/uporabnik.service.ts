@@ -47,15 +47,18 @@ export class MagicService {
     // ============== ISKANJE =================
     getPosition(): Promise<any> {
         return new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(
-                (resp) => {
-                    resolve({ lng: resp.coords.longitude, lat: resp.coords.latitude });
-                },
-                (err) => {
-                    reject(err);
-                }
-            );
+            resolve({ lng: 14.501463, lat: 46.059039 });
         });
+        /* wont work on http...
+		navigator.geolocation.getCurrentPosition(
+			(resp) => {
+				resolve({ lng: resp.coords.longitude, lat: resp.coords.latitude });
+			},
+			(err) => {
+				reject(err);
+			}
+		);
+		*/
     }
     // ============== ISKANJE =================
     callIskanjeApi(lat: number, lng: number, polnilniceBody: Polnilnica[]): Observable<Polnilnica[]> {
